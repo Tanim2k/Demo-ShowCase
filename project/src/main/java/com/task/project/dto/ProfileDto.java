@@ -15,4 +15,8 @@ public class ProfileDto {
     private String email;
     private String address;
     private String role;
+
+
+    public ProfileDto(String john, String doe) {
+    }
 }

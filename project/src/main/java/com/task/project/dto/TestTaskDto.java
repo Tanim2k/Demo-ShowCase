@@ -9,10 +9,11 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TaskDto {
+public class TestTaskDto {
 
     private String title;
     private String description;
     private String status;
     private LocalDate createdDate;
+    private Long userId;
 }

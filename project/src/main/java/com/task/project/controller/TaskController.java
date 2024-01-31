@@ -1,6 +1,7 @@
 package com.task.project.controller;
 
 import com.task.project.dto.TaskDto;
+import com.task.project.dto.TestTaskDto;
 import com.task.project.model.Task;
 import com.task.project.service.TaskService;
 import lombok.AllArgsConstructor;
@@ -24,9 +25,9 @@ public class TaskController {
 
     @PostMapping("/create")
     @PreAuthorize("hasAnyAuthority('ROLE_USER','ROLE_ADMIN')")
-    public ResponseEntity<TaskDto> createTask(@RequestBody Task task)
+    public ResponseEntity<TestTaskDto> createTask(@RequestBody Task task)
     {
-        TaskDto taskDto=taskService.createTask(task);
+        TestTaskDto taskDto=taskService.createTask(task);
         return new ResponseEntity<>(taskDto, HttpStatus.CREATED);
     }
 
@@ -58,9 +59,6 @@ public class TaskController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<TaskDto>> getAllTasksForAdmin()
     {
-       /* Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        System.out.println("User Authorities: " + authorities);*/
         List<TaskDto>list=taskService.getAllTasksForAdmin();
         return new ResponseEntity<>(list,HttpStatus.OK);
     }
@@ -72,6 +70,24 @@ public class TaskController {
         List<TaskDto>list=taskService.getUserAllTasks();
         return new ResponseEntity<>(list,HttpStatus.OK);
     }
+
+    @GetMapping("/getAllTaskForUserAndAdminSortedViaDateDesc")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER','ROLE_ADMIN')")
+    public ResponseEntity<List<TaskDto>> getAllTaskForUserAndAdminSortedViaDateDesc()
+    {
+        List<TaskDto>list=taskService.getUserAllTasksSortedViaDate();
+        return new ResponseEntity<>(list,HttpStatus.OK);
+    }
+
+    @GetMapping("/getAllTaskForUserAndAdminSortedViaTitleAsec")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER','ROLE_ADMIN')")
+    public ResponseEntity<List<TaskDto>> getAllTaskForUserAndAdminSortedViaTitleAsec()
+    {
+        List<TaskDto>list=taskService.getUserAllTasksSortedViaTitle();
+        return new ResponseEntity<>(list,HttpStatus.OK);
+    }
+
+
 
 
 }

@@ -9,5 +9,7 @@ import java.util.List;
 public interface TaskRepo extends JpaRepository<Task,Long> {
 
      List<Task> findAllByUserEntity(UserEntity user);
+    List<Task> findAllByUserEntityOrderByCreatedDateDesc(UserEntity userEntity);
+    List<Task> findAllByUserEntityOrderByTitleAsc(UserEntity userEntity);
     Task findByTaskId(Long id);
 }

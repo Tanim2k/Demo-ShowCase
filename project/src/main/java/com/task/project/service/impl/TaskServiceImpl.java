@@ -1,6 +1,7 @@
 package com.task.project.service.impl;
 
 import com.task.project.dto.TaskDto;
+import com.task.project.dto.TestTaskDto;
 import com.task.project.exceptions.ResourceNotFoundException;
 import com.task.project.exceptions.UnAuthorizedException;
 import com.task.project.model.Task;
@@ -16,6 +17,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -30,16 +32,26 @@ public class TaskServiceImpl implements TaskService {
     private ModelMapper modelMapper;
     private UserRepo userRepo;
     @Override
-    public TaskDto createTask(Task task) throws ResourceNotFoundException {
+    public TestTaskDto createTask(Task task) throws ResourceNotFoundException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Optional<UserEntity> user= Optional.ofNullable(Optional.ofNullable(userRepo.findByUsername(authentication.getName())).orElseThrow(() -> new ResourceNotFoundException("Invalid Credentials")));
 
         if(user.isEmpty())
             throw new ResourceNotFoundException("Invalid Credentials");
 
+        List<Task>tasks=taskRepo.findAll();
+        for(Task task1: tasks)
+        {
+            if(task1.getTitle().equals(task.getTitle())) {
+                throw new ResourceNotFoundException("Please Enter Unique Title for your task");
+            }
+        }
         task.setUserEntity(user.get());
+        task.setCreatedDate(LocalDate.now());
         taskRepo.save(task);
-        return modelMapper.map(task,TaskDto.class);
+        TestTaskDto testTaskDto= modelMapper.map(task,TestTaskDto.class);
+        testTaskDto.setUserId(task.getUserEntity().getUserId());
+        return testTaskDto;
     }
 
     @Override
@@ -128,6 +140,26 @@ public class TaskServiceImpl implements TaskService {
     public List<TaskDto> getAllTasksForAdmin() {
         List<Task> list=taskRepo.findAll();
 
+        return list.stream()
+                .map(taskEntity -> modelMapper.map(taskEntity, TaskDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TaskDto> getUserAllTasksSortedViaDate() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Optional<UserEntity> user= Optional.ofNullable(userRepo.findByUsername(authentication.getName()));
+        List<Task> list=taskRepo.findAllByUserEntityOrderByCreatedDateDesc(user.get());
+        return list.stream()
+                .map(taskEntity -> modelMapper.map(taskEntity, TaskDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TaskDto> getUserAllTasksSortedViaTitle() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Optional<UserEntity> user= Optional.ofNullable(userRepo.findByUsername(authentication.getName()));
+        List<Task> list=taskRepo.findAllByUserEntityOrderByTitleAsc(user.get());
         return list.stream()
                 .map(taskEntity -> modelMapper.map(taskEntity, TaskDto.class))
                 .collect(Collectors.toList());

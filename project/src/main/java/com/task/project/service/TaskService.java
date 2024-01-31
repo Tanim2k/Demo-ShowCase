@@ -1,6 +1,7 @@
 package com.task.project.service;
 
 import com.task.project.dto.TaskDto;
+import com.task.project.dto.TestTaskDto;
 import com.task.project.exceptions.ResourceNotFoundException;
 import com.task.project.model.Task;
 
@@ -8,7 +9,7 @@ import java.util.List;
 
 public interface TaskService {
 
-  TaskDto createTask(Task task) throws ResourceNotFoundException;
+  TestTaskDto createTask(Task task) throws ResourceNotFoundException;
   TaskDto updateTask(Task task,Long id) throws ResourceNotFoundException;
 
   void deleteTask(Long id) throws ResourceNotFoundException;
@@ -17,4 +18,8 @@ public interface TaskService {
   List<TaskDto> getUserAllTasks();
 
   List<TaskDto> getAllTasksForAdmin();
+
+  List<TaskDto> getUserAllTasksSortedViaDate();
+  List<TaskDto> getUserAllTasksSortedViaTitle();
+
 }
