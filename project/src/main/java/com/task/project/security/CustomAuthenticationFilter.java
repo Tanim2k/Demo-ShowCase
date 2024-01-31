@@ -27,7 +27,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         try {
             UserLoginReqModel creds = new ObjectMapper().readValue(request.getInputStream(), UserLoginReqModel.class);
             return authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(creds.getEmail(),creds.getPassword())
+                    new UsernamePasswordAuthenticationToken(creds.getUsername(),creds.getPassword())
             );
         } catch (IOException e) {
             log.info("Exception occurred at attemptAuthentication method: {}",e.getLocalizedMessage());

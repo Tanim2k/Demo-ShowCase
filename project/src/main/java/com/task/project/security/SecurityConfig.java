@@ -6,9 +6,11 @@ import lombok.AllArgsConstructor;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -25,6 +27,8 @@ import java.util.Arrays;
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
@@ -45,6 +49,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth->{
                     auth
                             .requestMatchers(HttpMethod.POST, AppConstants.SIGN_IN, AppConstants.SIGN_UP).permitAll()
+
                             .anyRequest().authenticated();
                 })
                 .addFilter(new CustomAuthenticationFilter(authenticationManager))

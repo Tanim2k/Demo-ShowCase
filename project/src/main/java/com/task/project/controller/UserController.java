@@ -9,6 +9,7 @@ import com.task.project.model.UserEntity;
 import com.task.project.service.UserService;
 import com.task.project.utils.JWTUtils;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -33,15 +36,31 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register (@RequestBody UserEntity user) {
+    public ResponseEntity<?> register(@RequestBody @Valid UserEntity user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            // Validation errors occurred
+            Map<String, String> errors = new HashMap<>();
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errors.put(error.getField(), error.getDefaultMessage());
+            }
 
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        }
+
+        try {
             UserDto createdUser = userService.createUser(user);
             String accessToken = JWTUtils.generateToken(createdUser.getEmail());
             Map<String, Object> registerResponse = new HashMap<>();
             registerResponse.put("user", createdUser);
             registerResponse.put(AppConstants.HEADER_STRING, AppConstants.TOKEN_PREFIX + accessToken);
             return ResponseEntity.status(HttpStatus.CREATED).body(registerResponse);
-
+        }catch (InvalidUser i) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Credentials");
+        }
+        catch (Exception e) {
+            // Handle other exceptions (e.g., database errors) here
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error during user registration");
+        }
     }
 
     @GetMapping("/profile")
@@ -55,10 +74,10 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserLoginReqModel userLoginReqModel, HttpServletResponse response) throws InvalidUser {
         try {
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userLoginReqModel.getEmail(), userLoginReqModel.getPassword()));
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userLoginReqModel.getUsername(), userLoginReqModel.getPassword()));
             if (authentication.isAuthenticated()) {
-                UserDto userDto = userService.getUser(userLoginReqModel.getEmail());
-                String accessToken = JWTUtils.generateToken(userDto.getEmail());
+                UserDto userDto = userService.getUser(userLoginReqModel.getUsername());
+                String accessToken = JWTUtils.generateToken(userDto.getUsername());
 
                 Map<String, Object> loginResponse = new HashMap<>();
                 loginResponse.put("role", userDto.getRole());

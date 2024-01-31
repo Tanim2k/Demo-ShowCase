@@ -8,6 +8,6 @@ import lombok.*;
 @Setter
 @Getter
 public class UserLoginReqModel {
-    private String email;
+    private String username;
     private String password;
 }

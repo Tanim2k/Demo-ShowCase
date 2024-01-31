@@ -57,27 +57,27 @@ public class UserServiceImpl implements UserService,UserDetailsService {
                 .build();
         userRepo.save(user1);
         UserDto userDto=modelMapper.map(user1,UserDto.class);
-        String accessToken = JWTUtils.generateToken(user.getEmail());
+        String accessToken = JWTUtils.generateToken(user1.getUsername());
         userDto.setAccessToken(accessToken);
         return userDto;
     }
 
     @Override
-    public UserDto getUser(String email) throws  InvalidUser {
-       Optional<UserEntity> user=userRepo.findByEmail(email);
-       if(user.isEmpty())
-           throw new InvalidUser("Invalid Email Address");
+    public UserDto getUser(String username) throws  InvalidUser {
+       UserEntity user=userRepo.findByUsername(username);
+       if(user==null)
+           throw new InvalidUser("Invalid  UserName");
 
         BeanUtils.copyProperties(user,new UserDto());
 
-        return modelMapper.map(user.get(),UserDto.class);
+        return modelMapper.map(user,UserDto.class);
 
     }
 
     @Override
     public ProfileDto getProfile() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Optional<UserEntity> user=userRepo.findByEmail(authentication.getName());
+        UserEntity user=userRepo.findByUsername(authentication.getName());
         return modelMapper.map(user,ProfileDto.class);
     }
 
@@ -89,8 +89,8 @@ public class UserServiceImpl implements UserService,UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity userEntity = userRepo.findByEmail(username).get();
-        return new User(userEntity.getEmail(),userEntity.getPassword(),
+        UserEntity userEntity = userRepo.findByUsername(username);
+        return new User(userEntity.getUsername(),userEntity.getPassword(),
                 true,true,true,true,new ArrayList<>());
     }
 }

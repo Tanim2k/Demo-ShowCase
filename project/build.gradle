@@ -29,6 +29,9 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
+	// Add this to your dependencies in the build.gradle file
+	implementation 'org.hibernate.validator:hibernate-validator:6.2.0.Final'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.15.2'
