@@ -23,5 +23,5 @@ public class Task {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name="user_id")
-    private User user;
+    private UserEntity userEntity;
 }
