@@ -46,6 +46,19 @@ Here Basically I have Two Types of Roles.One is User and Other one is Admin.For 
 
 The `frontend` branch contains the frontend code for the Online Task Management project. This includes the user interface, styles, and client-side logic.
 
+4. Install Dependecies ..
+
+      ```bash
+         "@reach/router": "^1.3.4",
+        "axios": "^1.5.1",
+        "bootstrap": "^5.3.2",
+        "react": "^18.2.0",
+        "react-bootstrap": "^2.9.1",
+        "react-dom": "^18.2.0",
+        "react-router-dom": "^6.17.0",
+        "react-toastify": "^9.1.3",
+        "sass": "^1.69.3"
+
 
 
 #### Actual Process:-
