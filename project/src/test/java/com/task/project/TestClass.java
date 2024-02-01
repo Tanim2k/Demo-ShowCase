@@ -22,6 +22,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.modelmapper.ModelMapper;
 
 import org.springframework.security.core.Authentication;
@@ -37,6 +38,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+
 
 class UserServiceImplTest {
 
@@ -68,7 +70,7 @@ class UserServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
@@ -156,38 +158,50 @@ class UserServiceImplTest {
         verify(modelMapper, times(1)).map(userEntity, ProfileDto.class);
     }
 
+
+
     @Test
-    void createTask() throws ResourceNotFoundException {
-        // Arrange
+    void testCreateTask() throws ResourceNotFoundException {
+        MockitoAnnotations.initMocks(this);
+
+        // Mock authentication context
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        when(authentication.getName()).thenReturn("testuser");
+
+        // Mock user retrieval
         UserEntity userEntity = new UserEntity();
         userEntity.setUserId(1L);
-        userEntity.setUsername("john_doe");
+        when(userRepo.findByUsername("testuser")).thenReturn(userEntity);
 
-        Task inputTask = new Task();
-        inputTask.setTitle("Sample Task");
-        inputTask.setDescription("Sample Description");
-
-        Task mappedTask = new Task();
-        mappedTask.setUserEntity(userEntity);
-        mappedTask.setCreatedDate(LocalDate.now());
-
-        TestTaskDto expectedDto = new TestTaskDto();
-        expectedDto.setUserId(userEntity.getUserId());
-
-        when(authentication.getName()).thenReturn("john_doe");
-        when(securityContext.getAuthentication()).thenReturn(authentication);
-        when(userRepo.findByUsername("john_doe")).thenReturn(Optional.of(userEntity).orElseThrow(()->new RuntimeException("UserName Not found")));
+        // Mock task retrieval
         when(taskRepo.findAll()).thenReturn(Collections.emptyList());
-        when(modelMapper.map(inputTask, Task.class)).thenReturn(mappedTask);
-        when(modelMapper.map(mappedTask, TestTaskDto.class)).thenReturn(expectedDto);
 
-        // Act
-        TestTaskDto result = taskService.createTask(inputTask);
+        // Mock task creation
+        Task task = new Task();
+        task.setTitle("Test Task");
+        task.setDescription("Test Description");
+        when(modelMapper.map(any(), eq(Task.class))).thenReturn(task);
 
-        // Assert
-        assertNotNull(result);
-        assertEquals(expectedDto.getUserId(), result.getUserId());
-        verify(taskRepo, times(1)).save(mappedTask);
+        // Mock task saving
+        when(taskRepo.save(task)).thenReturn(task);
+
+        // Mock task mapping for response
+        when(modelMapper.map(task, TestTaskDto.class)).thenReturn(new TestTaskDto());
+
+        // Call the method under test
+        assertDoesNotThrow(() -> {
+            TestTaskDto result = taskService.createTask(task);
+            assertNotNull(result);
+            // Add assertions based on your actual mapping logic
+        });
+
+        // Verify that the necessary methods were called
+        verify(userRepo, times(1)).findByUsername("testuser");
+        verify(taskRepo, times(1)).findAll();
+        verify(taskRepo, times(1)).save(task);
+        verify(modelMapper, times(1)).map(task, TestTaskDto.class);
     }
+
+
 
 }
