@@ -37,6 +37,8 @@ public class UserServiceImpl implements UserService,UserDetailsService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private ModelMapper modelMapper;
     private UsernameGenaratorService usernameGenaratorService;
+
+    private EmailService emailService;
     @Override
     public UserDto createUser(UserEntity user) throws ResourceNotFoundException {
         if(userRepo.findByEmail(user.getEmail()).isPresent())
@@ -56,9 +58,12 @@ public class UserServiceImpl implements UserService,UserDetailsService {
                 .username(usernameGenaratorService.generateRandomUsername())
                 .build();
         userRepo.save(user1);
+        emailService.sendEmail(user1.getEmail(),"Registration Successfull","Your UserName is :-"+user1.getUsername());
         UserDto userDto=modelMapper.map(user1,UserDto.class);
         String accessToken = JWTUtils.generateToken(user1.getUsername());
         userDto.setAccessToken(accessToken);
+
+
         return userDto;
     }
 

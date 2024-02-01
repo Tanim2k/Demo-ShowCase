@@ -37,15 +37,6 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Valid UserEntity user, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            // Validation errors occurred
-            Map<String, String> errors = new HashMap<>();
-            for (FieldError error : bindingResult.getFieldErrors()) {
-                errors.put(error.getField(), error.getDefaultMessage());
-            }
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
-        }
 
         try {
             UserDto createdUser = userService.createUser(user);

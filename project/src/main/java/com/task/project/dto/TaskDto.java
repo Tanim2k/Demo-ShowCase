@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @Builder
 public class TaskDto {
 
+    private Long taskId;
     private String title;
     private String description;
     private String status;
