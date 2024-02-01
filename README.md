@@ -7,6 +7,7 @@ Welcome to the Online Task Management project! This repository is organized with
 ### `master` Branch (Backend Code)
 
 The `master` branch contains the backend code for the Online Task Management project. This includes server-side logic, database interactions, and any other backend-related code.
+Here Basically I have Two Types of Roles.One is User and Other one is Admin.For more Clearity checkout api documentation below.
 
 #### Setup Instructions for Backend:
 
@@ -46,6 +47,18 @@ The `master` branch contains the backend code for the Online Task Management pro
 The `frontend` branch contains the frontend code for the Online Task Management project. This includes the user interface, styles, and client-side logic.
 
 
+
+#### Actual Process:-
+
+
+HOMEPAGE:-
+![Screenshot 1](https://github.com/Tanim2k/Demo-ShowCase/blob/Default-Branch/Screenshot%20(4).png)
+
+Registration Page :-
+![Screenshot 2](https://github.com/Tanim2k/Demo-ShowCase/blob/Default-Branch/Screenshot%20(5).png)
+
+Log-In Page:-
+![Screenshot 3](https://github.com/Tanim2k/Demo-ShowCase/blob/Default-Branch/Screenshot%20(6).png)
 
 ## API Documentation
 
