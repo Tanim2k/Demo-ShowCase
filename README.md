@@ -60,6 +60,52 @@ Registration Page :-
 Log-In Page:-
 ![Screenshot 3](https://github.com/Tanim2k/Demo-ShowCase/blob/Default-Branch/Screenshot%20(6).png)
 
+After SuccessFull Log in User will get an username in his/her email address:-
+![Screenshot 4](https://github.com/Tanim2k/Demo-ShowCase/blob/Default-Branch/Screenshot%20(11).png)
+
+This is The Email:-
+![Screenshot 5](https://github.com/Tanim2k/Demo-ShowCase/blob/Default-Branch/Screenshot%20(12).png)
+
+User DashBoard:-
+![Screenshot 5](https://github.com/Tanim2k/Demo-ShowCase/blob/Default-Branch/Screenshot%20(13).png)
+
+User Profile:-
+![Screenshot 6](https://github.com/Tanim2k/Demo-ShowCase/blob/Default-Branch/Screenshot%20(14).png)
+
+Task Insertion:-
+![Screenshot 7](https://github.com/Tanim2k/Demo-ShowCase/blob/Default-Branch/Screenshot%20(15).png)
+
+View Only User Tasks:-
+![Screenshot 7](https://github.com/Tanim2k/Demo-ShowCase/blob/Default-Branch/Screenshot%20(16).png)
+
+Testing Filter (For Descending order):-
+![Screenshot 8](https://github.com/Tanim2k/Demo-ShowCase/blob/Default-Branch/Screenshot%20(17).png)
+
+Admin DashBoard:-
+![Screenshot 9](https://github.com/Tanim2k/Demo-ShowCase/blob/Default-Branch/Screenshot%20(18).png)
+
+Admin Profile:-
+![Screenshot 10](https://github.com/Tanim2k/Demo-ShowCase/blob/Default-Branch/Screenshot%20(19).png)
+
+Admin Viewing All Users Task:-
+![Screenshot 10](https://github.com/Tanim2k/Demo-ShowCase/blob/Default-Branch/Screenshot%20(20).png)
+
+Deleting Tasks:-
+![Screenshot 11](https://github.com/Tanim2k/Demo-ShowCase/blob/Default-Branch/Screenshot%20(21).png)
+
+User Updating Their Task:-
+![Screenshot 12](https://github.com/Tanim2k/Demo-ShowCase/blob/Default-Branch/Screenshot%20(23).png)
+
+Matching The Update:-
+![Screenshot 13](https://github.com/Tanim2k/Demo-ShowCase/blob/Default-Branch/Screenshot%20(24).png)
+
+User Deleting the Update:-
+![Screenshot 14](https://github.com/Tanim2k/Demo-ShowCase/blob/Default-Branch/Screenshot%20(25).png)
+
+
+
+
+
 ## API Documentation
 
 The API documentation for the Online Task Management project can be found [here](https://documenter.getpostman.com/view/29675464/2s9Yythgoa). Please refer to this documentation for details on available endpoints, request formats, and responses.
