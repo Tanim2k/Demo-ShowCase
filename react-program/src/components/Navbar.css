@@ -1,0 +1,7 @@
+/* custom-navbar.css */
+
+/* Make the navbar background black */
+.bg-black {
+  background-color: #000; /* You can change the color code to your preferred black shade */
+  color: #fff; /* Change text color to white for better visibility */
+}
