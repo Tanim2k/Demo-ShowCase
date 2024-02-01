@@ -110,6 +110,11 @@ User Deleting the Update:-
 
 The API documentation for the Online Task Management project can be found [here](https://documenter.getpostman.com/view/29675464/2s9Yythgoa). Please refer to this documentation for details on available endpoints, request formats, and responses.
 
+## Unit Testing 
+I have tested 4 unit test case .They are basically CreateUser,Checking duplicate Email Address,View Profile,Create Tasks.
+
+### Future Scope
+I think this is a very small module it can be bigger with a lot of features like setting up goals for each tasks and system will notify user everyday and there can be deadline for that task.
 
 
 ## Contributing
